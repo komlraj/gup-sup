@@ -21,22 +21,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-  res.send("hello")
-})
+app.set('views', path.join(__dirname, './server/views'));
+app.set('view engine', 'ejs');
 
-// app.set('views', path.join(__dirname, './server/views'));
-// app.set('view engine', 'ejs');
-
-// app.use(session({
-//   secret: 'toDo fullStack',
-//   resave: true,
-//   saveUninitialized: true,
-//   cookie: {
-//     maxAge: 3600000,
-//   },
-//   store: new MongoStore({ url: 'mongodb://localhost/toDo-fullStack-session'})
-// }));
+app.use(session({
+  secret: 'toDo fullStack',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 3600000,
+  },
+  store: new MongoStore({ url: 'mongodb://localhost/toDo-fullStack-session'})
+}));
 
 if(process.env.NODE_ENV === 'development') {
   var webpack = require('webpack');
@@ -51,15 +47,30 @@ if(process.env.NODE_ENV === 'development') {
   app.use(require('webpack-hot-middleware')(compiler));
 }
 
-// app.use(passport.initialize());
-// app.use(passport.session());
-// require('./server/modules/passport')(passport);
-// app.use(cors());
-
+app.use(passport.initialize());
+app.use(passport.session());
+require('./server/modules/passport')(passport);
+app.use(cors());
 
 // app.use('/api', require('./server/routes/api'));
 // app.use(require('./server/routes/index'));
 
-app.listen(port, () => {
+app.get('/', (req, res) => {
+  res.render('index');
+})
+
+server = app.listen(port, () => {
   console.log(`server is running on http://localhost:${port}`);
 });
+
+const socket = require('socket.io');
+const io = socket(server);
+
+io.on('connection', (socket) => {
+  console.log(socket.id, "socket id");
+
+  socket.on('SEND_MESSAGE', function(data){
+    console.log(data, "data in send msg")
+    io.emit('RECEIVE_MESSAGE', data);
+  })
+})
