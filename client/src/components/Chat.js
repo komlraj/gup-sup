@@ -20,7 +20,6 @@ class Chat extends Component {
     const addMessage = data => {
       console.log(data, "data in chat component");
       this.setState({messages: [...this.state.messages, data]});
-      console.log(this.state.messages, 'messages');
     };
 
     this.handleChange = (e) => {
@@ -29,7 +28,8 @@ class Chat extends Component {
       })
     }
   
-    this.handleSendMessage = () => {
+    this.handleSendMessage = (e) => {
+      e.preventDefault();
       this.socket.emit('SEND_MESSAGE', {
         author: this.state.userName,
         message: this.state.message
@@ -44,20 +44,27 @@ class Chat extends Component {
   render() {
 
     return (
-      <div>
-        <div>
-          <input name='userName' value={this.state.userName} onChange={this.handleChange} placeholder='user NAme' />
-          <input name='message' value={this.state.message} onChange={this.handleChange} placeholder='message' />
-          <button onClick={this.handleSendMessage}>send</button>
-        </div>
-        <div>
-          {
-            this.state.messages.map(msg => {
-              console.log(msg, "msg")
-              return <div>{msg.author} : {msg.message} </div>
-            })
-          }
-        </div>
+      <div className='chat'>
+        <main className='chatArea'>
+          <div className='chatContainer'>
+            {
+              this.state.messages.map(msg => {
+                console.log(msg, "msg")
+                return <div>{msg.author} : {msg.message} </div>
+              })
+            }
+          </div>
+          <form onSubmit={this.handleSendMessage} className='sendMsgForm'>
+            <input name='userName' value={this.state.userName} onChange={this.handleChange} placeholder='user NAme' />
+            <input name='message' value={this.state.message} onChange={this.handleChange} placeholder='message' />
+            <button onClick={this.handleSendMessage}>send</button>
+          </form>
+        </main>
+        <aside className='sideBar'>
+          <div>
+            <a className='btn' href='/logout' >Log Out</a>
+          </div>
+        </aside>
       </div>
     )
   }

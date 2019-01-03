@@ -52,12 +52,8 @@ app.use(passport.session());
 require('./server/modules/passport')(passport);
 app.use(cors());
 
-// app.use('/api', require('./server/routes/api'));
-// app.use(require('./server/routes/index'));
-
-app.get('/', (req, res) => {
-  res.render('index');
-})
+app.use('/api', require('./server/routes/api'));
+app.use(require('./server/routes/index'));
 
 server = app.listen(port, () => {
   console.log(`server is running on http://localhost:${port}`);

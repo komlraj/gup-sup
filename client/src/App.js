@@ -3,6 +3,7 @@ import './App.scss';
 import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import Chat from './components/Chat';
+import Login from './components/Login';
 
 // Loading = () => {
 //   return <div>loading...</div>
@@ -18,11 +19,12 @@ class App extends Component {
   render() {
 
     return (
-      <div className="App">
+      <div className="">
         <BrowserRouter>
-          <div className="App">
+          <div className="">
             <Switch>
-              <Route path='/' component={Chat} />
+              <Route path='/' component={Chat} exact />
+              <Route path='/login' component={Login} />
             </Switch>
           </div>
         </BrowserRouter>
