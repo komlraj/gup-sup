@@ -25,14 +25,21 @@ export function signupAction(data) {
 // auth user login action creator
 export function loginAction(data) {
   return (dispatch) => {
-    return fetch(`${apiUrl}/login`, {
+    fetch(`http://localhost:8000/api/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username: data.userName, password: data.password }),
+      body: JSON.stringify(data)
     })
-      .then(res => res.json())
+    .then(res => res.json())
+    .then(data => {
+      if(data.user) {
+        dispatch({type: 'LOGIN_SUCCESS', data: data.user })
+      } else {
+        dispatch({ type: 'LOGIN_ERR', data })
+      }    
+    });
   };
 }
 

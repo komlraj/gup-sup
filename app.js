@@ -11,7 +11,7 @@ const path = require('path');
 
 const port = 8000;
 
-mongoose.connect('mongodb://localhost/toDo-fullStack', { useNewUrlParser: true }, function(err, connection) {
+mongoose.connect('mongodb://localhost/gup-sup', { useNewUrlParser: true }, function(err, connection) {
   if(err) throw err;
   else console.log('connected to mongodb');
 });
@@ -31,7 +31,7 @@ app.use(session({
   cookie: {
     maxAge: 3600000,
   },
-  store: new MongoStore({ url: 'mongodb://localhost/toDo-fullStack-session'})
+  store: new MongoStore({ url: 'mongodb://localhost/gup-sup-session'})
 }));
 
 if(process.env.NODE_ENV === 'development') {

@@ -9,6 +9,12 @@ module.exports = {
   entry: [
     './client/src/index.js',
   ],
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "[name].bundle.js",
+    chunkFilename: "[name].bundle.js",
+    publicPath: "/"
+  },
   module: {
     rules: [
       {

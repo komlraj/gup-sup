@@ -1,21 +1,21 @@
-const LocalStrategy = require('passport-local').Strategy;
+const Local = require('passport-local').Strategy;
 const User = require('../models/User');
 
 module.exports = function(passport) {
   passport.serializeUser(function(user, done) {
-    done(null, user._id);
+    return done(null, user._id);
   });
-      
+
   passport.deserializeUser(function(_id, done) {
-    User.findById(_id, function (err, user) {
-      done(err, user);
+    User.findById(_id, function(err, user) {
+      return done(err, user);
     });
   });
-  
-  passport.use(new LocalStrategy(
+
+  passport.use(new Local(
     function(username, password, done) {
-      User.findOne({ userName: username }, function (err, user) {
-        console.log(username, user, 'in passport')
+      console.log(username, password, "in passport")
+      User.findOne({ username: username }, function (err, user) {
         if (err) { return done(err); }
         if (!user) { return done(null, false); }
         user.verifyPassword(password, function(err, isMatched) {
@@ -27,5 +27,4 @@ module.exports = function(passport) {
       });
     }
   ));
-
-};
+}
