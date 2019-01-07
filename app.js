@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const cors = require('cors');
 const path = require('path');
+const socket = require('socket.io');
 
 const port = 8000;
 
@@ -55,18 +56,38 @@ app.use(cors());
 app.use('/api', require('./server/routes/api'));
 app.use(require('./server/routes/index'));
 
+var userSocketIds = {};
+
 server = app.listen(port, () => {
   console.log(`server is running on http://localhost:${port}`);
 });
 
-const socket = require('socket.io');
 const io = socket(server);
 
 io.on('connection', (socket) => {
   console.log(socket.id, "socket id");
 
+  socket.on('ONLINE', function(data) {
+    console.log(data, socket.id, "user socket")
+    userSocketIds[data.userId] = socket.id;
+    console.log( userSocketIds, "userSocketIds")
+  });
+
   socket.on('SEND_MESSAGE', function(data){
     console.log(data, "data in send msg")
     io.emit('RECEIVE_MESSAGE', data);
   })
-})
+
+  socket.on('PRIVATE_MESSAGE', function(data) {
+    console.log(data, "data in PRIVATE_MESSAGE")
+    // data.toUserId -> UserID
+    // userSocketsId[toUserId]   -> User socket id
+    // emit event to only that socket.id;
+  })
+});
+
+
+// client.on("private", function(data) {        
+//   io.sockets.sockets[data.to].emit("private", { from: client.id, to: data.to, msg: data.msg });
+// client.emit("private", { from: client.id, to: data.to, msg: data.msg });
+// });

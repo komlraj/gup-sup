@@ -31,10 +31,10 @@ userSchema.pre('save', function(next){
   bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
     console.log('debug 1.5', err, salt);
     bcrypt.hash(password, salt, function(err, hash) {
-        console.log('debug2', hash, err);
-        // Store hash in your password DB.
-        self.password = hash;
-        next();
+      console.log('debug2', hash, err);
+      // Store hash in your password DB.
+      self.password = hash;
+      next();
     });
   })
 });

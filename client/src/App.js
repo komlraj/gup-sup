@@ -9,9 +9,9 @@ const Loading = () => {
   return <div>loading...</div>
 };
 
-const Chat = Loadable({
+const Dashboard = Loadable({
   loader: () => 
-  import(/* webpackChunkName: 'chat' */ './components/Chat'),
+  import(/* webpackChunkName: 'dashboard' */ './components/Dashboard'),
   loading: Loading
 });
 
@@ -24,6 +24,12 @@ const Login = Loadable({
 const Signup = Loadable({
   loader: () => 
   import(/* webpackChunkName: 'signup' */ './components/Signup'),
+  loading: Loading
+});
+
+const CreateChannel = Loadable({
+  loader: () => 
+  import(/* webpackChunkName: 'createChannel' */ './components/CreateChannel'),
   loading: Loading
 });
 
@@ -70,9 +76,10 @@ class App extends Component {
         <BrowserRouter>
           <div className="">
             <Switch>
-              <Route path='/' render={() => this.checkAuth(<Chat />)} exact />
+              <Route path='/' render={() => this.checkAuth(<Dashboard />)} exact />
               <Route path='/login' render={() => this.checkLogin()} />
               <Route path='/signup' component={Signup} />
+              <Route path='/create' component={CreateChannel} />
             </Switch>
           </div>
         </BrowserRouter>

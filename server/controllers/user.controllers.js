@@ -8,7 +8,6 @@ module.exports = {
     newUser.save((err, data) => {
       if(err) throw err;
       else { 
-        console.log(data, "send data in mongoose")
         return res.status(200).json({
           "message" : "signup successfull"
         })
@@ -33,6 +32,14 @@ module.exports = {
       if(err) throw err;
       res.json({ user: user })
     });
+  },
+
+  listOfUser: (req, res) => {
+    User.find({}, (err, users) => {
+      if (err) throw err ;
+      else res.json({listOfUser: users});
+    })
   }
+
   
 }

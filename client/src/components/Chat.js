@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
+import { connect } from 'react-redux';
 
 class Chat extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       userName: '',
       message: '',
-      messages: []
+      messages: [],
+      listOfUser: [],
     };
 
     this.socket = io('localhost:8000');
+
+    this.socket.emit('ONLINE', { userId: this.props.currentUser._id })
 
     this.socket.on('RECEIVE_MESSAGE', function(data){
       addMessage(data);
@@ -39,35 +43,52 @@ class Chat extends Component {
 
   }
 
-  
+  componentWillMount = () => {
+    fetch('http://localhost:8000/api/allUser')
+    .then(res => res.json())
+    .then(data => {
+      this.setState({
+        listOfUser: data.listOfUser
+      })
+    })
+  }
+
+  componentDidMount = () => {
+    fetch('http://localhost:8000/api/allUser')
+    .then(res => res.json())
+    .then(data => {
+      this.setState({
+        listOfUser: data.listOfUser
+      })
+    })
+  } 
 
   render() {
 
     return (
-      <div className='chat'>
-        <main className='chatArea'>
-          <div className='chatContainer'>
-            {
-              this.state.messages.map(msg => {
-                console.log(msg, "msg")
-                return <div>{msg.author} : {msg.message} </div>
-              })
-            }
-          </div>
-          <form onSubmit={this.handleSendMessage} className='sendMsgForm'>
-            <input name='userName' value={this.state.userName} onChange={this.handleChange} placeholder='user NAme' />
-            <input name='message' value={this.state.message} onChange={this.handleChange} placeholder='message' />
-            <button onClick={this.handleSendMessage}>send</button>
-          </form>
-        </main>
-        <aside className='sideBar'>
-          <div>
-            <a className='btn' href='/logout' >Log Out</a>
-          </div>
-        </aside>
+      <div className='chatArea'>
+        <div className='chatContainer'>
+          {
+            this.state.messages.map((msg, i) => {
+              console.log(msg, "msg")
+              return <div key={i}>{msg.author} : {msg.message} </div>
+            })
+          }
+        </div>
+        <form onSubmit={this.handleSendMessage} className='sendMsgForm'>
+          <input name='userName' value={this.state.userName} onChange={this.handleChange} placeholder='user NAme' />
+          <input name='message' value={this.state.message} onChange={this.handleChange} placeholder='message' />
+          <button onClick={this.handleSendMessage}>send</button>
+        </form>
       </div>
     )
   }
 }
 
-export default Chat;
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(Chat);
