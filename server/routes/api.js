@@ -14,4 +14,6 @@ router.post('/create', ChannelController.create );
 
 router.get('/isLoggedin', auth.isLoggedIn, userController.isLoggedin);
 
+router.get('/allChannel', ChannelController.allChannel);
+
 module.exports = router;

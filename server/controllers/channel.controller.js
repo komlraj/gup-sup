@@ -2,7 +2,6 @@ const Channel = require('../models/Channel');
 
 module.exports = {
   create: (req, res) => {
-    console.log(req.body, "req.body in channel")
     const { name } = req.body;
     const newChannel = new Channel({
       name,
@@ -19,5 +18,12 @@ module.exports = {
       }
     })
   },
+
+  allChannel: (req, res) => {
+    Channel.find({}, (err, channels) => {
+      if (err) throw err;
+      else res.json({ listOfChannel: channels })
+    })
+  }
 
 };
