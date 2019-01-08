@@ -39,8 +39,8 @@ class CreateChannel extends Component {
       <div>
         <a href='/'>back</a>
         <form>
-          <input type='text' name='name' placeholder='channel name' onChange={this.handleChange}></input>
-          <button onClick={this.handleCreateChannel}>Create</button>
+          <input className='input' type='text' name='name' placeholder='channel name' onChange={this.handleChange}></input>
+          <button onClick={this.handleCreateChannel} className='btn'>Create</button>
         </form>
       </div>
     )

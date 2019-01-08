@@ -76,9 +76,9 @@ class Chat extends Component {
           }
         </div>
         <form onSubmit={this.handleSendMessage} className='sendMsgForm'>
-          <input name='userName' value={this.state.userName} onChange={this.handleChange} placeholder='user NAme' />
-          <input name='message' value={this.state.message} onChange={this.handleChange} placeholder='message' />
-          <button onClick={this.handleSendMessage}>send</button>
+          <input name='userName' className='input' value={this.state.userName} onChange={this.handleChange} placeholder='User Name' />
+          <input name='message' className='input' value={this.state.message} onChange={this.handleChange} placeholder='Message' />
+          <button onClick={this.handleSendMessage} className='btn'>send</button>
         </form>
       </div>
     )

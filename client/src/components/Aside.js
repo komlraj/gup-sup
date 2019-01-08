@@ -48,14 +48,23 @@ class Aside extends Component {
   
   handleChannel = (e) => {
     console.log(e)
+    return e.target.className += ' selected';
+  }
+
+  handleUser = (e) => {
+    console.log(e.target.id, e.target.className)
+    return e.target.className += ' selected';
   }
 
   render() {
+    const  username  = this.props.currentUser ? this.props.currentUser.username : '' ;
+
     return (
       <aside className='sideBar'>
-        <a href='/logout'>logout</a>
+        <span>{username}</span>
+        <a href='/logout' className='right'>logout</a>
         <div>
-          <input type='text'></input>
+          <input type='text' className='searchBox'></input>
         </div>
         <div>
           <div>
@@ -72,7 +81,8 @@ class Aside extends Component {
           <p>Direct Messages</p>
           {
             this.state.listOfUser.map((user, i) => {
-              return <p key={i} className='username'>{user.username}</p>
+              if(user.username === username) return;
+              else return <p key={i} className='username' id={user._id} onClick={this.handleUser}>{user.username}</p>
             })
           }
         </div>
@@ -81,4 +91,16 @@ class Aside extends Component {
   }
 }
 
-export default Aside;
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Aside);

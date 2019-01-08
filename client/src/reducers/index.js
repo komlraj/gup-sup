@@ -3,7 +3,6 @@
 const initState = {
   currentUser: null,
   fetchedUserData: {},
-  allUserInfo: [],
 };
 
 // reducer for set state according to action type
@@ -22,7 +21,6 @@ const rootReducer = (state = initState, action) => {
       return {
         ...state,
         currentUser: action.data,
-        allUserInfo: [...state.allUserInfo, action.data.username],
       };
     case 'LOGIN_ERR':
       return {
