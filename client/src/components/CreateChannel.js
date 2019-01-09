@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 class CreateChannel extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

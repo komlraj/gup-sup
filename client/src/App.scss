@@ -72,3 +72,27 @@
   background: rgb(32, 42, 54);
   color: blanchedalmond;
 }
+.currentUser-msg-wrap,
+.anotherUser-msg-wrap {
+  display: block;
+  margin: 5px 0;
+  font-size: 1.2rem;
+}
+.currentUser-msg {
+  background: rgb(30, 62, 165);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  clear: right;
+}
+.anotherUser-msg {
+  background: rgb(128, 123, 123);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.name {
+  background: rgb(123, 123, 211);
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  padding: 10px 0;
+}

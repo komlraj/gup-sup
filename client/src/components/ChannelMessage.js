@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import io from 'socket.io-client';
 import { connect } from 'react-redux';
 
-class Chat extends Component {
+class ChannelMessage extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      userName: '',
       message: '',
       messages: [],
       listOfUser: [],
@@ -17,7 +16,7 @@ class Chat extends Component {
 
     this.socket.emit('ONLINE', { userId: this.props.currentUser._id })
 
-    this.socket.on('RECEIVE_MESSAGE', function(data){
+    this.socket.on('RECEIVE_CHANNEL_MESSAGE', function(data){
       addMessage(data);
     });
   
@@ -34,40 +33,20 @@ class Chat extends Component {
   
     this.handleSendMessage = (e) => {
       e.preventDefault();
-      this.socket.emit('SEND_MESSAGE', {
-        author: this.state.userName,
+      this.socket.emit('SEND_CHANNEL_MESSAGE', {
+        author: this.props.currentUser.username,
         message: this.state.message
       });
       this.setState({message: ''});
     }
-
   }
-
-  componentWillMount = () => {
-    fetch('http://localhost:8000/api/allUser')
-    .then(res => res.json())
-    .then(data => {
-      this.setState({
-        listOfUser: data.listOfUser
-      })
-    })
-  }
-
-  componentDidMount = () => {
-    fetch('http://localhost:8000/api/allUser')
-    .then(res => res.json())
-    .then(data => {
-      this.setState({
-        listOfUser: data.listOfUser
-      })
-    })
-  } 
 
   render() {
 
     return (
       <div className='chatArea'>
         <div className='chatContainer'>
+        <h1 className='center name'>{this.props.currentChannel.name}</h1>
           {
             this.state.messages.map((msg, i) => {
               console.log(msg, "msg")
@@ -87,8 +66,9 @@ class Chat extends Component {
 
 function mapStateToProps(state) {
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    currentChannel: state.selectedChannelInfo,
   }
 }
 
-export default connect(mapStateToProps)(Chat);
+export default connect(mapStateToProps)(ChannelMessage);

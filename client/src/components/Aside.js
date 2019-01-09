@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { setToUserAction, openedChannelChatRoomAction } from '../actions/index';
 class Aside extends Component {
 
   constructor(props) {
@@ -47,12 +47,13 @@ class Aside extends Component {
   }
   
   handleChannel = (e) => {
-    console.log(e)
+    console.log(e.target.id)
+    this.props.openedChannelChatRoom(e.target.id);
     return e.target.className += ' selected';
   }
 
   handleUser = (e) => {
-    console.log(e.target.id, e.target.className)
+    this.props.setToUser({toUser: e.target.id, fromUser: this.props.currentUser._id});
     return e.target.className += ' selected';
   }
 
@@ -72,7 +73,7 @@ class Aside extends Component {
             <a href='/create' className='right'>+</a>
             {
             this.state.listOfChannel.map((channel, i) => {
-              return <p key={i} className='channel' onClick={this.handleChannel}>{channel.name}</p>
+              return <p key={i} className='channel' id={channel._id} onClick={this.handleChannel}>{channel.name}</p>
             })
           }
           </div>
@@ -100,6 +101,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
+    setToUser: (userId) => dispatch(setToUserAction(userId)),
+    openedChannelChatRoom: (channelId) => dispatch(openedChannelChatRoomAction(channelId)),
   }
 }
 

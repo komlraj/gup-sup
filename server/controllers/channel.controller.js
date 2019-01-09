@@ -24,6 +24,13 @@ module.exports = {
       if (err) throw err;
       else res.json({ listOfChannel: channels })
     })
+  },
+
+  channelMessages: (req, res) => {
+    console.log(req.params.id);
+    Channel.findById(req.params.id, (err, data) => {
+      if(!err) res.json(data);
+    })
   }
 
 };

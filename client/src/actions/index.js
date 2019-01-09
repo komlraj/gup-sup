@@ -49,3 +49,41 @@ export const getLoggedinUserData = (data) => {
     dispatch({ type: 'ISLOGGEDINDATA', data });
   };
 };
+
+// set toUser for sending message
+export const setToUserAction = (userData) => {
+  return(dispatch) => {
+    fetch(`http://localhost:8000/api/message`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        toUser: userData.toUser,
+        fromUser: userData.fromUser
+      })
+      })
+      .then(res => res.json())
+      .then(messages => {
+        dispatch({ type: 'SETTOUSER', data:{messages, toUser: userData.toUser}});
+      });
+  };
+};
+
+// Add sending messages in redux store
+export const addMessagesAction = (messageDetails) => {
+  return(dispatch) => {
+    dispatch({type: 'ADD_MESSAGES', messageDetails})
+  }
+};
+
+// store openChannelChatRoom id in redus-store
+export const openedChannelChatRoomAction = (channelId) => {
+  return(dispatch) => {
+    fetch(`http://localhost:8000/api/channel/${channelId}`)
+    .then(res => res.json())
+    .then(data => {
+      dispatch({ type: 'OPENED_CHANNEL_INFO', data: {data, channelId} })
+    })
+  }
+};

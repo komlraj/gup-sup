@@ -73,21 +73,32 @@ io.on('connection', (socket) => {
     console.log( userSocketIds, "userSocketIds")
   });
 
-  socket.on('SEND_MESSAGE', function(data){
-    console.log(data, "data in send msg")
-    io.emit('RECEIVE_MESSAGE', data);
+  socket.on('SEND_CHANNEL_MESSAGE', function(data){
+    io.emit('RECEIVE_CHANNEL_MESSAGE', data);
   })
 
-  socket.on('PRIVATE_MESSAGE', function(data) {
-    console.log(data, "data in PRIVATE_MESSAGE")
+  const PrivateMessage = require('./server/models/PrivateMessage');
+  socket.on('SEND_PRIVATE_MESSAGE', function(data) {
+    const newPrivateMessage = new PrivateMessage(data);
+    let findedDataArr = [];
+    newPrivateMessage.save((err, data) => {
+      if (err) throw err;
+      else {
+        PrivateMessage.find({ $and: [
+            {$or: [{toUser: data.toUser}, {fromUser: data.toUser}]}, 
+            {$or: [{toUser: data.fromUser}, {fromUser: data.fromUser}]} 
+          ]}, (err, data)=> {
+          if (!err) findedDataArr = data;
+          console.log(findedDataArr, "private message data after saving in mongoode");
+          io.emit('RECEIVE_PRIVATE_MESSAGE', findedDataArr);
+        });
+        
+      }
+    });
+    
+    
     // data.toUserId -> UserID
     // userSocketsId[toUserId]   -> User socket id
     // emit event to only that socket.id;
   })
 });
-
-
-// client.on("private", function(data) {        
-//   io.sockets.sockets[data.to].emit("private", { from: client.id, to: data.to, msg: data.msg });
-// client.emit("private", { from: client.id, to: data.to, msg: data.msg });
-// });
