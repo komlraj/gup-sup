@@ -70,7 +70,7 @@ export const setToUserAction = (userData) => {
   };
 };
 
-// Add sending messages in redux store
+// Add sending Private Messages in redux store
 export const addMessagesAction = (messageDetails) => {
   return(dispatch) => {
     dispatch({type: 'ADD_MESSAGES', messageDetails})
@@ -84,6 +84,28 @@ export const openedChannelChatRoomAction = (channelId) => {
     .then(res => res.json())
     .then(data => {
       dispatch({ type: 'OPENED_CHANNEL_INFO', data: {data, channelId} })
+    })
+  }
+};
+
+// Add sending Channel Message in redux store.
+export const addChannelMessagesAction = (messageDetails) =>{
+  console.log(messageDetails,"messageDetails");
+  return(dispatch) => {
+    fetch(`http://localhost:8000/api/channel/message`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        channelId: messageDetails.channelId,
+        messageInfo: messageDetails.messageInfo,
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data, data[0], data[0].messages)
+      dispatch({ type: 'UPDATE_CHANNEL_MSG', data: data[0].messages })
     })
   }
 };

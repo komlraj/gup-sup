@@ -38,7 +38,9 @@ const rootReducer = (state = initState, action) => {
       };
     case 'SETTOUSER':
       return {
-        ...state, 
+        ...state,
+        toChannel: '',
+        selectedChannelInfo: {},
         toUser: action.data.toUser, 
         selectedUserMessages: action.data.messages
       };
@@ -50,9 +52,18 @@ const rootReducer = (state = initState, action) => {
     case 'OPENED_CHANNEL_INFO':
       return {
         ...state,
+        toUser: '',
         toChannel: action.data.channelId,
         selectedChannelInfo: action.data.data,
       };
+    case 'UPDATE_CHANNEL_MSG':
+      return {
+        ...state,
+        selectedChannelInfo: {
+          ...state.selectedChannelInfo,
+          messages: action.data,
+        }
+      }
     default:
       break;
   }

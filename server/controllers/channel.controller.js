@@ -26,11 +26,27 @@ module.exports = {
     })
   },
 
-  channelMessages: (req, res) => {
-    console.log(req.params.id);
+  channelInfo: (req, res) => {
     Channel.findById(req.params.id, (err, data) => {
       if(!err) res.json(data);
     })
-  }
+  },
+
+  channelMessage: (req, res) => {
+    const { messageInfo } = req.body;
+    let msgObj = {
+      username: messageInfo.author,
+      message: messageInfo.message,
+      date: new Date(),
+    }
+    Channel.findOneAndUpdate( { _id: req.body.channelId }, { $push: {messages: msgObj}}, (err, data) => {
+      if (!err) {
+        Channel.find({ _id: req.body.channelId }, (err, data) => {
+          if (!err) return res.json(data);
+        })
+      }
+    })
+    
+  },
 
 };

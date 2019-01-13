@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import { connect } from 'react-redux';
+import { addChannelMessagesAction } from '../actions/index';
 
 class ChannelMessage extends Component {
 
@@ -20,9 +21,8 @@ class ChannelMessage extends Component {
       addMessage(data);
     });
   
-    const addMessage = data => {
-      console.log(data, "data in chat component");
-      this.setState({messages: [...this.state.messages, data]});
+    const addMessage = messageInfo => {
+      this.props.addMessages({ messageInfo, channelId: this.props.currentChannel._id });
     };
 
     this.handleChange = (e) => {
@@ -42,22 +42,24 @@ class ChannelMessage extends Component {
   }
 
   render() {
-
+    const { currentChannel, currentUser} = this.props;
     return (
       <div className='chatArea'>
         <div className='chatContainer'>
         <h1 className='center name'>{this.props.currentChannel.name}</h1>
-          {
-            this.state.messages.map((msg, i) => {
-              console.log(msg, "msg")
-              return <div key={i}>{msg.author} : {msg.message} </div>
+          { 
+            (currentChannel.messages) ?
+            currentChannel.messages.map((msg, i) => {
+              if(msg.username === currentUser.username ) {
+                return <div key={i}><span className='right'>{msg.username} : {msg.message}</span> </div>
+              } else 
+              return <div key={i}>{msg.username} : {msg.message} </div>
             })
+            : ''
           }
         </div>
         <form onSubmit={this.handleSendMessage} className='sendMsgForm'>
-          <input name='userName' className='input' value={this.state.userName} onChange={this.handleChange} placeholder='User Name' />
           <input name='message' className='input' value={this.state.message} onChange={this.handleChange} placeholder='Message' />
-          <button onClick={this.handleSendMessage} className='btn'>send</button>
         </form>
       </div>
     )
@@ -71,4 +73,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(ChannelMessage);
+function mapDispatchToProps(dispatch) {
+  return {
+    addMessages: (data) => dispatch(addChannelMessagesAction(data)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelMessage);

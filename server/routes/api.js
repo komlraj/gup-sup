@@ -19,6 +19,8 @@ router.get('/allChannel', channelController.allChannel);
 
 router.post('/message', privateMessageController.privateMessage);
 
-router.get('/channel/:id', channelController.channelMessages);
+router.get('/channel/:id', channelController.channelInfo);
+
+router.post('/channel/message', channelController.channelMessage);
 
 module.exports = router;

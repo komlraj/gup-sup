@@ -7,12 +7,12 @@ import PrivateMessage from './PrivateMessage';
 class Dashboard extends Component {
 
   render() {
-    const { toUser } = this.props;
+    const { toUser, toChannel } = this.props;
     return (
       <div className='dashboard'>
         <Aside />
         {
-          toUser ? <PrivateMessage /> : <ChannelMessage />
+          toUser ? <PrivateMessage /> : toChannel ? <ChannelMessage /> : <h1>hello everyone</h1>
         }
       </div>
     )
@@ -21,7 +21,8 @@ class Dashboard extends Component {
 
 function mapStateToProps(state) {
   return {
-    toUser: state.toUser ? state.toUser : '' ,
+    toUser: state.toUser,
+    toChannel: state.toChannel,
   }
 }
 

@@ -9,8 +9,9 @@ const ChannelSchema = new Schema({
     type : ObjectId, ref : 'User'
   }],
   messages: [{
-    userId: { type: ObjectId, ref: 'User' },
-    message: String
+    username: { type: String, ref: 'User' },
+    message: String,
+    date: { type: Date }
   }],
   date : { type : Date },
 });

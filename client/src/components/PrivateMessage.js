@@ -19,12 +19,10 @@ class PrivateMessage extends Component {
     this.socket.emit('ONLINE', { userId: this.props.currentUser._id })
 
     this.socket.on('RECEIVE_PRIVATE_MESSAGE', function(data){
-      console.log(this.props)
       addMessage(data);
     });
   
     const addMessage = data => {
-      console.log(this.props)
       this.props.addMessage(data);
     };
 
@@ -43,6 +41,7 @@ class PrivateMessage extends Component {
         fromUser: currentUser._id,
         message: message
       });
+      this.setState({message: ''});
     }
   }
 
@@ -81,7 +80,6 @@ class PrivateMessage extends Component {
         </div>
         <form onSubmit={this.handleSendMessage} className='sendMsgForm'>
           <input name='message' className='input' value={this.state.message} onChange={this.handleChange} placeholder='Message' />
-          <button onClick={this.handleSendMessage} className='btn'>send</button>
         </form>
       </div>
     )

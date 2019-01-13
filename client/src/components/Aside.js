@@ -29,35 +29,19 @@ class Aside extends Component {
     })
   }
 
-  componentDidMount = () => {
-    fetch('http://localhost:8000/api/allUser')
-    .then(res => res.json())
-    .then(data => {
-      this.setState({
-        listOfUser: data.listOfUser
-      })
-    });
-    fetch('http://localhost:8000/api/allChannel')
-    .then(res => res.json())
-    .then(data => {
-      this.setState({
-        listOfChannel: data.listOfChannel
-      })
-    })
-  }
   
   handleChannel = (e) => {
-    console.log(e.target.id)
     this.props.openedChannelChatRoom(e.target.id);
     return e.target.className += ' selected';
   }
 
   handleUser = (e) => {
     this.props.setToUser({toUser: e.target.id, fromUser: this.props.currentUser._id});
-    return e.target.className += ' selected';
+    // return e.target.className += ' selected'; 
   }
 
   render() {
+    const { listOfChannel, listOfUser } = this.state;
     const  username  = this.props.currentUser ? this.props.currentUser.username : '' ;
 
     return (
@@ -72,8 +56,8 @@ class Aside extends Component {
             <span>Channels</span>
             <a href='/create' className='right'>+</a>
             {
-            this.state.listOfChannel.map((channel, i) => {
-              return <p key={i} className='channel' id={channel._id} onClick={this.handleChannel}>{channel.name}</p>
+            listOfChannel.length && listOfChannel.map((channel, i) => {
+              return <p key={i} className={this.props.toChannel == channel._id ? 'selected username' : 'username'} id={channel._id} onClick={this.handleChannel}>{channel.name}</p>
             })
           }
           </div>
@@ -81,9 +65,9 @@ class Aside extends Component {
         <div>
           <p>Direct Messages</p>
           {
-            this.state.listOfUser.map((user, i) => {
+            listOfUser && listOfUser.map((user, i) => {
               if(user.username === username) return;
-              else return <p key={i} className='username' id={user._id} onClick={this.handleUser}>{user.username}</p>
+              else return <p key={i} className={this.props.toUser == user._id ? 'selected username' : 'username'} id={user._id} onClick={this.handleUser}>{user.username}</p>
             })
           }
         </div>
@@ -94,7 +78,9 @@ class Aside extends Component {
 
 function mapStateToProps(state) {
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    toUser: state.toUser,
+    toChannel: state.toChannel,
   }
 }
 

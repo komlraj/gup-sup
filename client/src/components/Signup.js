@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { signupAction } from '../actions/index';
 import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 
 class Signup extends Component {
   constructor() {
@@ -31,7 +32,7 @@ class Signup extends Component {
   };
 
   render() {
-    console.log(this.props.msg);
+    if(this.props.msg) this.props.history.push('/');
     return (
       <div className='login-form'>
         <form onSubmit={this.handleLogin}>
@@ -42,6 +43,7 @@ class Signup extends Component {
           <input name='confirmPassword' type='password' className='input' placeholder='Confirm Password' onChange={this.hanldeChange} />
           <button className='btn' onClick={this.handleSignup}>Sing Up</button>
         </form>
+        <p className='form-msg center'> Registered User Please   <Link to='/'>Login</Link></p>
       </div>
     )
   }
