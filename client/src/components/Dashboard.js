@@ -12,7 +12,11 @@ class Dashboard extends Component {
       <div className='dashboard'>
         <Aside />
         {
-          toUser ? <PrivateMessage /> : toChannel ? <ChannelMessage /> : <h1>hello everyone</h1>
+          toUser ? <PrivateMessage /> : toChannel 
+            ? <ChannelMessage /> 
+            : <div className='news-feed'>
+                <p className="news-feed-content center">The NewsFeed area still in the making process, so please select any friends or channel Chat-Room-Area.</p>
+              </div>
         }
       </div>
     )
