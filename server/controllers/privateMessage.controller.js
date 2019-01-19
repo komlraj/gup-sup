@@ -10,5 +10,10 @@ module.exports = {
     ]}, (err, data)=> {
     if (!err) res.json(data);
     });
-  }
-}
+  },
+
+  addPrivateMessage: (req, res) => {
+    
+  },
+
+};

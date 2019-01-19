@@ -72,9 +72,24 @@ export const setToUserAction = (userData) => {
 
 // Add sending Private Messages in redux store
 export const addMessagesAction = (messageDetails) => {
+  console.log(messageDetails)
   return(dispatch) => {
-    dispatch({type: 'ADD_MESSAGES', messageDetails})
-  }
+    fetch(`http://localhost:8000/api/message`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        toUser: messageDetails.toUser,
+        fromUser: messageDetails.fromUser
+      })
+      })
+      .then(res => res.json())
+      .then(messages => {
+        console.log(messages)
+        dispatch({ type: 'ADD_MESSAGES', messages });
+      });
+  };
 };
 
 // store openChannelChatRoom id in redus-store
@@ -89,22 +104,17 @@ export const openedChannelChatRoomAction = (channelId) => {
 };
 
 // Add sending Channel Message in redux store.
-export const addChannelMessagesAction = (messageDetails) =>{
-  console.log(messageDetails,"messageDetails");
+export const addChannelMessagesAction = (channelId) =>{
   return(dispatch) => {
     fetch(`http://localhost:8000/api/channel/message`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        channelId: messageDetails.channelId,
-        messageInfo: messageDetails.messageInfo,
-      })
+      body: JSON.stringify({ id: channelId })
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data, data[0], data[0].messages)
       dispatch({ type: 'UPDATE_CHANNEL_MSG', data: data[0].messages })
     })
   }

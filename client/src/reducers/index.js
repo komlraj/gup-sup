@@ -47,7 +47,7 @@ const rootReducer = (state = initState, action) => {
     case 'ADD_MESSAGES':
       return {
         ...state,
-        selectedUserMessages: action.messageDetails
+        selectedUserMessages: action.messages
       };
     case 'OPENED_CHANNEL_INFO':
       return {

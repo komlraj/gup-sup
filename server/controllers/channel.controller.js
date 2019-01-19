@@ -33,19 +33,12 @@ module.exports = {
   },
 
   channelMessage: (req, res) => {
-    const { messageInfo } = req.body;
-    let msgObj = {
-      username: messageInfo.author,
-      message: messageInfo.message,
-      date: new Date(),
-    }
-    Channel.findOneAndUpdate( { _id: req.body.channelId }, { $push: {messages: msgObj}}, (err, data) => {
-      if (!err) {
-        Channel.find({ _id: req.body.channelId }, (err, data) => {
-          if (!err) return res.json(data);
-        })
-      }
-    })
+    const { id } = req.body;
+
+    Channel.find({ _id: id }, (err, data) => {
+      console.log(data)
+      if (!err) return res.json(data);
+    });
     
   },
 

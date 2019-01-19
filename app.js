@@ -65,17 +65,30 @@ server = app.listen(port, () => {
 const io = socket(server);
 
 io.on('connection', (socket) => {
-  console.log(socket.id, "socket id");
 
   socket.on('ONLINE', function(data) {
-    console.log(data, socket.id, "user socket")
     userSocketIds[data.userId] = socket.id;
-    console.log( userSocketIds, "userSocketIds")
+    console.log( userSocketIds, "online userSocketIds")
   });
 
-  socket.on('SEND_CHANNEL_MESSAGE', function(data){
-    io.emit('RECEIVE_CHANNEL_MESSAGE', data);
-  })
+  const Channel= require('./server/models/Channel');
+  socket.on('SEND_CHANNEL_MESSAGE', function(channelMessage){
+    let messageArray = [];
+    let msgObj = {
+      username: channelMessage.author,
+      message: channelMessage.message,
+      date: new Date(),
+    }
+    Channel.findOneAndUpdate( { _id: channelMessage.toChannel }, { $push: {messages: msgObj}}, (err, data) => {
+      if (!err) {
+        Channel.find({ _id: channelMessage.channelId }, (err, data) => {
+          if (!err) messageArray = data;
+        })
+      }
+    })
+    io.emit('RECEIVE_CHANNEL_MESSAGE', messageArray);
+  });
+
 
   const PrivateMessage = require('./server/models/PrivateMessage');
   socket.on('SEND_PRIVATE_MESSAGE', function(data) {
