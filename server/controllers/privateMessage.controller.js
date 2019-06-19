@@ -2,11 +2,11 @@ const PrivateMessage = require('../models/PrivateMessage');
 
 module.exports = {
 
-  privateMessage: (req, res) => {
+privateMessage: (req, res) => {
     const { toUser, fromUser } = req.body;
-    PrivateMessage.find({ $and: [
-      {$or: [{toUser: toUser}, {fromUser: toUser}]}, 
-      {$or: [{toUser: fromUser}, {fromUser: fromUser}]} 
+    PrivateMessage.find({ $or: [
+      {$and: [{toUser: toUser}, {fromUser: fromUser}]}, 
+      {$and: [{toUser: fromUser}, {fromUser: toUser}]} 
     ]}, (err, data)=> {
     if (!err) res.json(data);
     });
