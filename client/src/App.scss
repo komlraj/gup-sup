@@ -263,12 +263,52 @@ body {
 }
 .message-info-container {
   display: flex;
+  align-items: center
 }
 .message-user-img {
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
+  background: #00BCD4;
+  margin: 10px;
+}
+
+.msg-usr-background {
+  background: orange;
+}
+.user-name {
+  font-weight: 800;
+  line-height: 1.8;
 }
 .message-info {
   display: flex;
   flex-direction: column;
+}
+.back-btn {
+  margin: 20px;
+  display: inline-block;
+  padding: 8px 12px;
+  background: #0f6fbb;
+  color: #fff;
+  font-size: 1.3rem;
+  border-radius: 5px;
+}
+.create-channel {
+  &-form {
+    width: 60%;
+    margin: 20px auto;
+    padding: 0 50px;
+  }
+  &-input {
+    border: 1px solid;
+    border-radius: 8px;
+  }
+  &-btn {
+    background: #0d5d88;
+    border: 1px solid;
+    border-radius: 10px;
+    color: #fff;
+    &:hover {
+      background: #1676a9;
+    }
+  }
 }

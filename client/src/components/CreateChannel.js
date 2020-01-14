@@ -35,11 +35,11 @@ class CreateChannel extends Component {
 
   render() {
     return (
-      <div>
-        <a href='/'>back</a>
-        <form>
-          <input className='input' type='text' name='name' placeholder='channel name' onChange={this.handleChange}></input>
-          <button onClick={this.handleCreateChannel} className='btn'>Create</button>
+      <div className="create-channel">
+        <a href='/' className="back-btn">back</a>
+        <form className="create-channel-form">
+          <input className='input create-channel-input' type='text' name='name' placeholder='channel name' onChange={this.handleChange}></input>
+          <button onClick={this.handleCreateChannel} className='btn create-channel-btn'>Create</button>
         </form>
       </div>
     )

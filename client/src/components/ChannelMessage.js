@@ -43,7 +43,7 @@ class ChannelMessage extends Component {
   }
 
   render() {
-    const { currentChannel } = this.props;
+    const { currentChannel, currentUser } = this.props;
     return (
       <div className='chatArea'>
         <div className='chatContainer'>
@@ -52,9 +52,13 @@ class ChannelMessage extends Component {
             (currentChannel.messages) &&
             currentChannel.messages.map((msg, i) => {
               return <div className='message-info-container' key={i}>
-              <img src='../media/signup.jpg' alt='user-image' className='message-user-img' />
+                {
+                  (msg.username === currentUser.username) ? 
+                  <span className='message-user-img'></span> :
+                  <span className="message-user-img msg-usr-background"></span>
+                }
                 <div className='message-info'>
-                  <span className=''>{msg.username}</span> <span>{msg.message}</span>
+                  <span className='user-name'>{msg.username}</span> <span>{msg.message}</span>
                 </div>
               </div>
             })
