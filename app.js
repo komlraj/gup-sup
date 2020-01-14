@@ -10,9 +10,9 @@ const cors = require('cors');
 const path = require('path');
 const socket = require('socket.io');
 
-const port = 8000;
+const port = process.env.PORT || 8000;
 
-mongoose.connect('mongodb://localhost/gup-sup', { useNewUrlParser: true }, function(err, connection) {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://user:kml1326JAISWAL@ds263448.mlab.com:63448/heroku_fg3s8m7l', { useNewUrlParser: true }, function(err, connection) {
   if(err) throw err;
   else console.log('connected to mongodb');
 });
@@ -35,7 +35,7 @@ app.use(session({
   store: new MongoStore({ url: 'mongodb://localhost/gup-sup-session'})
 }));
 
-if(process.env.NODE_ENV === 'development') {
+if(process.env.NODE_ENV !== 'production') {
   var webpack = require('webpack');
   var webpackConfig = require('./webpack.config');
   var compiler = webpack(webpackConfig);
