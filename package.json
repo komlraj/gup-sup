@@ -5,9 +5,14 @@
   "main": "app.js",
   "admin": "komal raj",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/bundle/bundle.js",
-    "build": "webpack --config webpack.config.js"
+    "start": "nodemon dist/server.prod.bundle.js",
+    "dev": "npm-run-all --parallel dev:*",
+    "dev:server": "webpack --config webpack.server.js --watch",
+    "dev:express": "nodemon dist/server.bundle.js",
+    "dev:client": "webpack --config webpack.client.js --watch",
+    "build:client": "webpack --config webpack.client.prod.js",
+    "build:server": "webpack --config webpack.server.prod.js",
+    "build": "npm-run-all --parallel build:*"
   },
   "repository": {
     "type": "git",
@@ -46,7 +51,10 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "socket.io": "^2.2.0",
-    "socket.io-client": "^2.2.0"
+    "socket.io-client": "^2.2.0",
+    "npm-run-all": "^4.1.5",
+    "webpack-node-externals": "^1.7.2",
+    "jsdom": "^13.2.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.2.1",

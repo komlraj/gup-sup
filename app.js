@@ -20,13 +20,13 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://user:kml1326JAISWAL@ds263
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join('dist')));
 
 app.set('views', path.join(__dirname, './server/views'));
 app.set('view engine', 'ejs');
 
 app.use(session({
-  secret: 'toDo fullStack',
+  secret: 'gup-sup',
   resave: true,
   saveUninitialized: true,
   cookie: {
