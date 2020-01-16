@@ -45,6 +45,7 @@ if(process.env.NODE_ENV !== 'production') {
     publicPath: webpackConfig.output.publicPath
   }));
 
+  app.use(express.static(__dirname + '/public'));
   app.use(require('webpack-hot-middleware')(compiler));
 }
 
