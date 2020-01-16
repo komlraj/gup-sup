@@ -17,10 +17,6 @@ Install Dependency
 ```
 npm install
 ```
-## Running the application for Production
-```
-npm run build
-```
 
 ## Running the application
 ```
