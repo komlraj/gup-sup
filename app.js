@@ -12,7 +12,8 @@ const socket = require('socket.io');
 
 const port = process.env.PORT || 8000;
 
-mongoose.connect(process.env.MONGODB_URI || '', function(err, connection) {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://user:kml1326JAISWAL@ds263448.mlab.com:63448/heroku_fg3s8m7l',
+{ useNewUrlParser: true, useUnifiedTopology: true }, function(err, connection) {
   if(err) throw err;
   else console.log('connected to mongodb');
 });
