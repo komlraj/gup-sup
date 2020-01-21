@@ -12,7 +12,7 @@ const socket = require('socket.io');
 
 const port = process.env.PORT || 8000;
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://user:kml1326JAISWAL@ds263448.mlab.com:63448/heroku_fg3s8m7l', { useNewUrlParser: true }, function(err, connection) {
+mongoose.connect(process.env.MONGODB_URI || '', function(err, connection) {
   if(err) throw err;
   else console.log('connected to mongodb');
 });
@@ -60,7 +60,7 @@ app.use(require('./server/routes/index'));
 var userSocketIds = {};
 
 server = app.listen(port, () => {
-  console.log(`server is running on http://localhost:${port}`);
+  // console.log(`server is running on http://localhost:${port}`);
 });
 
 const io = socket(server);
@@ -69,7 +69,7 @@ io.on('connection', (socket) => {
 
   socket.on('ONLINE', function(data) {
     userSocketIds[data.userId] = socket.id;
-    console.log( userSocketIds, "online userSocketIds")
+    // console.log( userSocketIds, "online userSocketIds")
   });
 
   const Channel= require('./server/models/Channel');
@@ -103,7 +103,7 @@ io.on('connection', (socket) => {
             {$or: [{toUser: data.fromUser}, {fromUser: data.fromUser}]} 
           ]}, (err, data)=> {
           if (!err) findedDataArr = data;
-          console.log(findedDataArr, "private message data after saving in mongoode");
+          // console.log(findedDataArr, "private message data after saving in mongoode");
           io.emit('RECEIVE_PRIVATE_MESSAGE', findedDataArr);
         });
         
