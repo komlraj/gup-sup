@@ -32,8 +32,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: {
     maxAge: 3600000,
-  },
-  store: new MongoStore({ url: 'mongodb://localhost/gup-sup-session'})
+  }
 }));
 
 if(process.env.NODE_ENV !== 'production') {
