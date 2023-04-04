@@ -7,7 +7,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 Clone the Repo
 ```
-git clone https://github.com/kml1326/resume-developer
+git clone https://github.com/kml1326/gup-sup
 ```
 Go into Folder
 ```
