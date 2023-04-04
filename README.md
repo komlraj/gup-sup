@@ -11,7 +11,7 @@ git clone https://github.com/kml1326/resume-developer
 ```
 Go into Folder
 ```
-cd resume-developer
+cd gup-sub
 ```
 Install Dependency
 ```
